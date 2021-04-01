@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:roundsman/src/pages/ChatPage.dart';
 import 'package:roundsman/src/pages/availableOrder.dart';
 import 'package:roundsman/src/pages/fire_map.dart';
 
@@ -47,6 +48,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => SettingsWidget());
       case '/fire_map':
         return MaterialPageRoute(builder: (_) => FireMap());
+      case '/Chating':
+        return MaterialPageRoute(builder: (_) => ChatWidget(routeArgument: args as RouteArgument));
       default:
         // If there is no such named route in the switch statement, e.g. /third
         return MaterialPageRoute(builder: (_) => Scaffold(body: SizedBox(height: 0)));
