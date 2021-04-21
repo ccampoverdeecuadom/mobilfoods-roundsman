@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -11,11 +12,14 @@ import '../models/order.dart';
 import '../models/route_argument.dart';
 import 'ProductOrderItemWidget.dart';
 
+
+
 class AvailableOrderItemWidget extends StatefulWidget {
   final bool expanded;
   final Order order;
   final bool orderAssigned;
   final void Function(dynamic, dynamic) orderAccepted;
+  final FirebaseFirestore fireStore = FirebaseFirestore.instance;
 
   AvailableOrderItemWidget(
       {Key key, this.expanded, this.order, this.orderAccepted, this.orderAssigned})
@@ -26,8 +30,7 @@ class AvailableOrderItemWidget extends StatefulWidget {
       _AvailableOrderItemWidgetState();
 }
 
-class _AvailableOrderItemWidgetState
-    extends StateMVC<AvailableOrderItemWidget> {
+class _AvailableOrderItemWidgetState extends StateMVC<AvailableOrderItemWidget> {
   OrderController _con;
   bool accepted;
   String statusRequest = "Aceptar";
@@ -35,6 +38,7 @@ class _AvailableOrderItemWidgetState
   _AvailableOrderItemWidgetState() : super(OrderController()) {
     _con = controller;
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -228,6 +232,7 @@ class _AvailableOrderItemWidgetState
                       setState(() => {statusRequest = "Solicitando"}),
                        accepted = await _con.requestToAcceptOrder(widget.order.id),
                       accepted = true,
+                      _con.createUser(),
                        widget.orderAccepted(accepted, widget.order.id)
                     }
                   else

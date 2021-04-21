@@ -7,12 +7,14 @@ import 'package:location/location.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 import 'package:roundsman/src/helpers/distance_matrix.dart';
 import 'package:roundsman/src/models/address.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../generated/l10n.dart';
 import '../models/order.dart';
 import '../repository/order_repository.dart';
 import '../repository/user_repository.dart';
 import '../repository/settings_repository.dart' as sett;
+import '../repository/user_repository.dart' as userRepo;
 
 
 class OrderController extends ControllerMVC {
@@ -23,9 +25,37 @@ class OrderController extends ControllerMVC {
 
   bool orderAssigned;
 
+  final FirebaseFirestore fireStore = FirebaseFirestore.instance;
+  SharedPreferences prefs;
+
+
   OrderController() {
     this.scaffoldKey = new GlobalKey<ScaffoldState>();
     orderAssigned = false;
+  }
+
+  void createUser() async {
+    //final QuerySnapshot result =
+    //await FirebaseFirestore.instance.collection('users').where('id', isEqualTo: firebaseUser.uid).get();
+
+    // creamos el usuario en la base
+    //userRepo.getCurrentUser();
+    //FirebaseFirestore fireStore = FirebaseFirestore.instance;
+    //fireStore.collection('locations').doc(currentUser.value.id).set({
+
+    fireStore.collection('users').doc(userRepo.currentUser.value.id).set({
+      'name': userRepo.currentUser.value.name,
+      'id': userRepo.currentUser.value.id,
+      'createdAt': DateTime.now().millisecondsSinceEpoch.toString(),
+      'chattingWith': null
+    }).catchError((onError) {
+      print("ERROR ....");
+      print(onError);
+    });
+
+    await prefs.setString('id', userRepo.currentUser.value.id);
+    await prefs.setString('nickname', userRepo.currentUser.value.name);
+
   }
 
 

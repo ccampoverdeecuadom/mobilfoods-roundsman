@@ -1,4 +1,5 @@
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -22,8 +23,12 @@ import '../elements/ShoppingCartButtonWidget.dart';
 import '../helpers/helper.dart';
 import '../models/route_argument.dart';
 
+import '../repository/user_repository.dart' as userRepo;
+import 'chat.dart';
+
 class OrderWidget extends StatefulWidget {
   final RouteArgument routeArgument;
+  final FirebaseFirestore fireStore = FirebaseFirestore.instance;
 
   OrderWidget({Key key, this.routeArgument}) : super(key: key);
 
@@ -38,6 +43,7 @@ class _OrderWidgetState extends StateMVC<OrderWidget>
   TabController _tabController;
   int _tabIndex = 0;
   OrderDetailsController _con;
+  String clientId;
 
   _OrderWidgetState() : super(OrderDetailsController(true)) {
     _con = controller;
@@ -63,6 +69,18 @@ class _OrderWidgetState extends StateMVC<OrderWidget>
       setState(() {
         _tabIndex = _tabController.index;
       });
+    }
+  }
+
+  Future getDocs() async {
+    print("11111");
+    QuerySnapshot querySnapshot = await widget.fireStore.collection("users").getDocuments();
+    for (int i = 0; i < querySnapshot.documents.length; i++) {
+      if(querySnapshot.documents[i].data()["id"] != userRepo.currentUser.value.id){
+        clientId = querySnapshot.documents[i].data()["id"];
+        print(clientId);
+      }
+
     }
   }
 
@@ -929,7 +947,12 @@ class _OrderWidgetState extends StateMVC<OrderWidget>
                           child: FlatButton(
                             padding: EdgeInsets.all(0),
                             onPressed: () {
-                              Navigator.of(context).pushNamed('/Chating', arguments: RouteArgument());
+                              clientId = "7";
+                              print("Client id" + clientId);
+                              //getDocs();
+
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => Chat(peerId: clientId)));
+                              //Navigator.of(context).pushNamed('/Chating', arguments: RouteArgument());
                             },
                             child: Icon(
                               Icons.chat,
