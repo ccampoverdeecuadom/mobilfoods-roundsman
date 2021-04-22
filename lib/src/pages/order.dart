@@ -947,7 +947,7 @@ class _OrderWidgetState extends StateMVC<OrderWidget>
                           child: FlatButton(
                             padding: EdgeInsets.all(0),
                             onPressed: () {
-                              clientId = "7";
+                              clientId = _con.order.user.id;
                               print("Client id" + clientId);
                               //getDocs();
 

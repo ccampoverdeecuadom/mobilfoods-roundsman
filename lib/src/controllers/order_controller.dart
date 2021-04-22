@@ -34,6 +34,7 @@ class OrderController extends ControllerMVC {
     orderAssigned = false;
   }
 
+  // method to create user on firestore when there is a active order
   void createUser() async {
     //final QuerySnapshot result =
     //await FirebaseFirestore.instance.collection('users').where('id', isEqualTo: firebaseUser.uid).get();
