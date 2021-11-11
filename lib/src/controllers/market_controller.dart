@@ -30,7 +30,7 @@ class MarketController extends ControllerMVC {
     }, onError: (a) {
       print(a);
       scaffoldKey?.currentState?.showSnackBar(SnackBar(
-        content: Text(S.of(context).verify_your_internet_connection),
+        content: Text(S.of(this.state.context).verify_your_internet_connection),
       ));
     }, onDone: () {
       if (message != null) {
@@ -88,7 +88,7 @@ class MarketController extends ControllerMVC {
     galleries.clear();
     reviews.clear();
     featuredProducts.clear();
-    listenForMarket(id: _id, message: S.of(context).market_refreshed_successfuly);
+    listenForMarket(id: _id, message: S.of(this.state.context).market_refreshed_successfuly);
     listenForMarketReviews(id: _id);
     listenForGalleries(_id);
     listenForFeaturedProducts(_id);

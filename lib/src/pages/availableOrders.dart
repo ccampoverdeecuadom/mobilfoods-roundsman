@@ -5,7 +5,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:roundsman/src/elements/AvailableOrderItemWidget.dart';
 import 'package:roundsman/src/models/route_argument.dart';
 import 'package:roundsman/src/repository/user_repository.dart';
-import '../elements/notification_plugin.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 
 import '../../generated/l10n.dart';
@@ -23,7 +22,6 @@ class AvailableOrdersWidget extends StatefulWidget {
 
 class _AvailableOrdersWidgetState extends StateMVC<AvailableOrdersWidget> {
   OrderController _con;
-  NotificationPlugin notificationPlugin;
   bool isActive;
 
   _AvailableOrdersWidgetState() : super(OrderController()) {

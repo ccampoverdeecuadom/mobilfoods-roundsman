@@ -164,7 +164,7 @@ Future<Order> deliveredOrder(Order order) async {
   final String url = '${GlobalConfiguration().getString('api_base_url')}orders/${order.id}?$_apiToken';
   final client = new http.Client();
   final response = await client.put(
-    url,
+      Uri.parse(url),
     headers: {HttpHeaders.contentTypeHeader: 'application/json'},
     body: json.encode(order.deliveredMap()),
   );
@@ -209,7 +209,7 @@ Future<bool> acceptOrder(id) async {
   final client = new http.Client();
   String jsonBody =  jsonEncode({"order_id": int.parse(id)});
   final response = await client.post(
-    url,
+      Uri.parse(url),
     headers: {HttpHeaders.contentTypeHeader: 'application/json'},
     body: jsonBody,
   );

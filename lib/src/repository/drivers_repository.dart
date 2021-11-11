@@ -19,7 +19,7 @@ void sendCurrentLocation() async {
   final client = new http.Client();
   var addressJson = json.encode(currentAddress.toMap());
   final response = await client.put(
-    url,
+      Uri.parse(url),
     headers: {HttpHeaders.contentTypeHeader: 'application/json'},
     body: addressJson,
   );

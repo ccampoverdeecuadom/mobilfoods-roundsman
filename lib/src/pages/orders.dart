@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:roundsman/src/repository/user_repository.dart';
-import '../elements/notification_plugin.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 
 import '../../generated/l10n.dart';
@@ -22,7 +21,6 @@ class OrdersWidget extends StatefulWidget {
 
 class _OrdersWidgetState extends StateMVC<OrdersWidget> {
   OrderController _con;
-  NotificationPlugin notificationPlugin;
   bool isActive;
 
   _OrdersWidgetState() : super(OrderController()) {

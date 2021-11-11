@@ -28,7 +28,7 @@ class _ForgetPasswordWidgetState extends StateMVC<ForgetPasswordWidget> {
       onWillPop: () async => false,
       child: Scaffold(
         key: _con.scaffoldKey,
-        resizeToAvoidBottomPadding: false,
+        resizeToAvoidBottomInset: false,
         body: Stack(
           alignment: AlignmentDirectional.topCenter,
           children: <Widget>[

@@ -25,7 +25,7 @@ Future<Setting> initSettings() async {
   Setting _setting;
   final String url = '${GlobalConfiguration().getString('api_base_url')}settings';
   try {
-    final response = await http.get(url, headers: {HttpHeaders.contentTypeHeader: 'application/json'});
+    final response = await http.get(Uri.parse(url), headers: {HttpHeaders.contentTypeHeader: 'application/json'});
     if (response.statusCode == 200 && response.headers.containsValue('application/json')) {
       if (json.decode(response.body)['data'] != null) {
         SharedPreferences prefs = await SharedPreferences.getInstance();

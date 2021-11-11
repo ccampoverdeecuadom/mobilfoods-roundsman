@@ -21,7 +21,7 @@ Future<User> login(User user) async {
   final String url = '${GlobalConfiguration().getString('api_base_url')}login';
   final client = new http.Client();
   final response = await client.post(
-    url,
+      Uri.parse(url),
     headers: {HttpHeaders.contentTypeHeader: 'application/json'},
     body: json.encode(user.toMap()),
   );
@@ -39,7 +39,7 @@ Future<User> register(User user) async {
   final String url = '${GlobalConfiguration().getString('api_base_url')}register';
   final client = new http.Client();
   final response = await client.post(
-    url,
+      Uri.parse(url),
     headers: {HttpHeaders.contentTypeHeader: 'application/json'},
     body: json.encode(user.toMap()),
   );
@@ -57,7 +57,7 @@ Future<bool> resetPassword(User user) async {
   final String url = '${GlobalConfiguration().getString('api_base_url')}send_reset_link_email';
   final client = new http.Client();
   final response = await client.post(
-    url,
+      Uri.parse(url),
     headers: {HttpHeaders.contentTypeHeader: 'application/json'},
     body: json.encode(user.toMap()),
   );
@@ -123,7 +123,7 @@ Future<User> update(User user) async {
   final String url = '${GlobalConfiguration().getString('api_base_url')}users/${currentUser.value.id}?$_apiToken';
   final client = new http.Client();
   final response = await client.post(
-    url,
+      Uri.parse(url),
     headers: {HttpHeaders.contentTypeHeader: 'application/json'},
     body: json.encode(user.toMap()),
   );
@@ -158,7 +158,7 @@ Future<Address> addAddress(Address address) async {
   final client = new http.Client();
   try {
     final response = await client.post(
-      url,
+        Uri.parse(url),
       headers: {HttpHeaders.contentTypeHeader: 'application/json'},
       body: json.encode(address.toMap()),
     );
@@ -177,7 +177,7 @@ Future<Address> updateAddress(Address address) async {
   final client = new http.Client();
   try {
     final response = await client.put(
-      url,
+        Uri.parse(url),
       headers: {HttpHeaders.contentTypeHeader: 'application/json'},
       body: json.encode(address.toMap()),
     );
@@ -195,7 +195,7 @@ Future<Address> removeDeliveryAddress(Address address) async {
   final client = new http.Client();
   try {
     final response = await client.delete(
-      url,
+        Uri.parse(url),
       headers: {HttpHeaders.contentTypeHeader: 'application/json'},
     );
     return Address.fromJSON(json.decode(response.body)['data']);
@@ -213,7 +213,7 @@ Future<User> updateDriverState(bool active) async{
   final client = new http.Client();
   String jsonBody =  jsonEncode({"active":active});
   final response = await client.put(
-    url,
+      Uri.parse(url),
     headers: {HttpHeaders.contentTypeHeader: 'application/json'},
     body: jsonBody,
   );

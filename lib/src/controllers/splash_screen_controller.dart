@@ -15,7 +15,7 @@ import '../repository/user_repository.dart' as userRepo;
 class SplashScreenController extends ControllerMVC with ChangeNotifier {
   ValueNotifier<Map<String, double>> progress = new ValueNotifier(new Map());
   GlobalKey<ScaffoldState> scaffoldKey;
-  final FirebaseMessaging firebaseMessaging = FirebaseMessaging();
+  final FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
 
   SplashScreenController() {
     this.scaffoldKey = new GlobalKey<ScaffoldState>();
@@ -26,8 +26,11 @@ class SplashScreenController extends ControllerMVC with ChangeNotifier {
   @override
   void initState() {
     super.initState();
-    firebaseMessaging.requestNotificationPermissions(const IosNotificationSettings(sound: true, badge: true, alert: true));
-    configureFirebase(firebaseMessaging);
+    firebaseMessaging.requestPermission(sound: true, badge: true, alert: true);
+
+    FirebaseMessaging.onMessage.listen((event) => notificationOnMessage(event.notification.title));
+    FirebaseMessaging.onMessageOpenedApp.listen((event) => notificationOnLaunch(event.data));
+    // configureFirebase(firebaseMessaging);
     settingRepo.setting.addListener(() {
       if (settingRepo.setting.value.appName != null && settingRepo.setting.value.appName != '' && settingRepo.setting.value.mainColor != null) {
         progress.value["Setting"] = 41;
@@ -42,11 +45,11 @@ class SplashScreenController extends ControllerMVC with ChangeNotifier {
     });
     Timer(Duration(seconds: 20), () {
       scaffoldKey?.currentState?.showSnackBar(SnackBar(
-        content: Text(S.of(context).verify_your_internet_connection),
+        content: Text(S.of(this.state.context).verify_your_internet_connection),
       ));
     });
   }
-
+/*
   void configureFirebase(FirebaseMessaging _firebaseMessaging) {
     try {
       _firebaseMessaging.configure(
@@ -59,6 +62,8 @@ class SplashScreenController extends ControllerMVC with ChangeNotifier {
       print(CustomTrace(StackTrace.current, message: 'Error Config Firebase'));
     }
   }
+
+ */
 
   Future notificationOnResume(Map<String, dynamic> message) async {
     print(CustomTrace(StackTrace.current, message: message['data']['id']));
@@ -79,11 +84,11 @@ class SplashScreenController extends ControllerMVC with ChangeNotifier {
     String messageId = await settingRepo.getMessageId();
     try {
       if (messageId != message['google.message_id']) {
-        if (message['data']['id'] == "orders") {
+        if (message['id'] == "orders") {
           await settingRepo.saveMessageId(message['google.message_id']);
           settingRepo.navigatorKey.currentState.pushReplacementNamed('/Pages', arguments: 0);
-        } else if(message['data']['id'] == "update_order") {
-          var orderId = message['data']['order_id'];
+        } else if(message['id'] == "update_order") {
+          var orderId = message['order_id'];
           settingRepo.navigatorKey.currentState.pushNamed('/OrderDetails', arguments: RouteArgument(id: orderId));
         }
       }
@@ -92,24 +97,14 @@ class SplashScreenController extends ControllerMVC with ChangeNotifier {
     }
   }
 
-  Future notificationOnMessage(Map<String, dynamic> message) async {
-    if (message['data']['id'] == "update_order") {
-      var orderId = message['data']['order_id'];
-      settingRepo.navigatorKey.currentState.pushNamed(
-          '/OrderDetails', arguments: RouteArgument(id: orderId));
-    } else {
-      Fluttertoast.showToast(
-        msg: message['notification']['title'],
-        toastLength: Toast.LENGTH_LONG,
-        gravity: ToastGravity.TOP,
-        backgroundColor: Theme
-            .of(settingRepo.navigatorKey.currentState.context)
-            .backgroundColor,
-//      textColor: Theme.of(context).hintColor,
-        timeInSecForIosWeb: 5,
-      );
-      settingRepo.navigatorKey.currentState.pushReplacementNamed(
-          '/Pages', arguments: 0);
-    }
+  Future notificationOnMessage(String title) async {
+    Fluttertoast.showToast(
+      msg: title,
+      toastLength: Toast.LENGTH_LONG,
+      gravity: ToastGravity.TOP,
+      timeInSecForIosWeb: 6,
+    );
+    settingRepo.navigatorKey.currentState.pushReplacementNamed('/Pages', arguments: 2);
   }
+
 }

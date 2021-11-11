@@ -4,6 +4,8 @@
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
+	<key>CFBundleDisplayName</key>
+	<string>Mobilfoods Repartidor</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -15,13 +17,34 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>$(FLUTTER_BUILD_NAME)</string>
+	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>$(FLUTTER_BUILD_NUMBER)</string>
+	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
+	<key>NSCameraUsageDescription</key>
+	<string>Para actualzar la foto de perfil.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Para el seguimiento del pedido en tiempo real se requieren permisos de Localización en segundo pĺano.</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Para el seguimiento del pedido en tiempo real se requieren permisos de Localización en segundo pĺano.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Para el seguimiento del pedido en tiempo real se requieren permisos de Localización en segundo pĺano.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Para actualzar la foto de perfil.</string>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>fetch</string>
+		<string>location</string>
+		<string>remote-notification</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
@@ -41,17 +64,5 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-    <string>Esta aplicación necesita permisos de Localización</string>
-    <key>NSLocationAlwaysUsageDescription</key>
-    <string>Esta aplicación necesita permisos de Localización en segundo pĺano.</string>
-    <key>NSLocationWhenInUseUsageDescription</key>
-    <string>Esta aplicación necesita permisos de Localización.</string>
-    <key>UIBackgroundModes</key>
-    <array>
-    		<string>fetch</string>
-    		<string>location</string>
-    </array>
-
 </dict>
 </plist>

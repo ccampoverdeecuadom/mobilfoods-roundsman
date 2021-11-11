@@ -23,7 +23,7 @@ class DeliveryAddressesController extends ControllerMVC {
     }, onError: (a) {
       print(a);
       scaffoldKey?.currentState?.showSnackBar(SnackBar(
-        content: Text(S.of(context).verify_your_internet_connection),
+        content: Text(S.of(this.state.context).verify_your_internet_connection),
       ));
     }, onDone: () {
       if (message != null) {
@@ -36,7 +36,7 @@ class DeliveryAddressesController extends ControllerMVC {
 
   Future<void> refreshAddresses() async {
     addresses.clear();
-    listenForAddresses(message: S.of(context).addresses_refreshed_successfuly);
+    listenForAddresses(message: S.of(this.state.context).addresses_refreshed_successfuly);
   }
 
   void addAddress(model.Address address) {
@@ -45,7 +45,7 @@ class DeliveryAddressesController extends ControllerMVC {
         this.addresses.add(value);
       });
       scaffoldKey?.currentState?.showSnackBar(SnackBar(
-        content: Text(S.of(context).new_address_added_successfully),
+        content: Text(S.of(this.state.context).new_address_added_successfully),
       ));
     });
   }
@@ -65,7 +65,7 @@ class DeliveryAddressesController extends ControllerMVC {
 //      ));
       setState(() {});
       addresses.clear();
-      listenForAddresses(message: S.of(context).the_address_updated_successfully);
+      listenForAddresses(message: S.of(this.state.context).the_address_updated_successfully);
     });
   }
 

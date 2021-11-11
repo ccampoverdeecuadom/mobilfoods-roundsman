@@ -22,50 +22,34 @@ class UserController extends ControllerMVC {
   OverlayEntry loader;
 
   UserController() {
-    loader = Helper.overlayLoader(context);
+    loader = Helper.overlayLoader(this);
     loginFormKey = new GlobalKey<FormState>();
     this.scaffoldKey = new GlobalKey<ScaffoldState>();
-    _firebaseMessaging = FirebaseMessaging();
+    _firebaseMessaging = FirebaseMessaging.instance;
 
-    _firebaseMessaging.configure(
-      onMessage: (Map<String, dynamic> message) async {
-        print("onMessage: $message");
-        if (message['data']['id'] == "orders") {
-          Fluttertoast.showToast(
-            msg: message['notification']['title'],
-            toastLength: Toast.LENGTH_LONG,
-            gravity: ToastGravity.TOP,
-            backgroundColor: Theme.of(settingRepo.navigatorKey.currentState.context).backgroundColor,
+    /****************Start FIREBASE******************/
+    FirebaseMessaging.onMessage.listen((RemoteMessage remoteMessage) {
+      if (remoteMessage.data['id'] == "orders") {
+        Fluttertoast.showToast(
+          msg: remoteMessage.notification.title,
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.TOP,
+          backgroundColor: Theme.of(settingRepo.navigatorKey.currentState.context).backgroundColor,
 //      textColor: Theme.of(context).hintColor,
-            timeInSecForIosWeb: 5,
-          );
-          settingRepo.navigatorKey.currentState.pushReplacementNamed('/Pages', arguments: 0);
-        }
-      },
-      onLaunch: (Map<String, dynamic> message) async {
-        print("onLaunch: $message");
-        if (message['data']['id'] == "orders") {
-          settingRepo.navigatorKey.currentState.pushReplacementNamed('/Pages', arguments: 0);
-        }
-      },
-      onResume: (Map<String, dynamic> message) async {
-        print("onResume: $message");
+          timeInSecForIosWeb: 5,
+        );
+        settingRepo.navigatorKey.currentState.pushReplacementNamed('/Pages', arguments: 0);
+      }
+    });
+
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage remoteMessage) {
         try {
-          if (message['data']['id'] == "orders") {
+          if (remoteMessage.data['id'] == "orders") {
             settingRepo.navigatorKey.currentState.pushReplacementNamed('/Pages', arguments: 0);
           }
-        } catch (e) {
-          print(CustomTrace(StackTrace.current, message: e));
-        }
-      },
-    );
-
-    _firebaseMessaging.requestNotificationPermissions(
-        const IosNotificationSettings(
-            sound: true, badge: true, alert: true, provisional: true));
-    _firebaseMessaging.onIosSettingsRegistered
-        .listen((IosNotificationSettings settings) {
-      print("Settings registered: $settings");
+      } catch (e) {
+        print(CustomTrace(StackTrace.current, message: e));
+      }
     });
 
     _firebaseMessaging.getToken().then((String _deviceToken) {
@@ -77,22 +61,22 @@ class UserController extends ControllerMVC {
   }
 
   void login() async {
-    FocusScope.of(context).unfocus();
+    FocusScope.of(this.state.context).unfocus();
     if (loginFormKey.currentState.validate()) {
       loginFormKey.currentState.save();
-      Overlay.of(context).insert(loader);
+      Overlay.of(this.state.context).insert(loader);
       repository.login(user).then((value) {
         if (value != null && value.apiToken != null) {
           Navigator.of(scaffoldKey.currentContext).pushReplacementNamed('/Pages', arguments: 0);
         } else {
           scaffoldKey?.currentState?.showSnackBar(SnackBar(
-            content: Text(S.of(context).wrong_email_or_password),
+            content: Text(S.of(this.state.context).wrong_email_or_password),
           ));
         }
       }).catchError((e) {
         loader.remove();
         scaffoldKey.currentState.showSnackBar(SnackBar(
-          content: Text(S.of(context).thisAccountNotExist),
+          content: Text(S.of(this.state.context).thisAccountNotExist),
         ));
       }).whenComplete(() {
         Helper.hideLoader(loader);
@@ -101,22 +85,22 @@ class UserController extends ControllerMVC {
   }
 
   void register() async {
-    FocusScope.of(context).unfocus();
+    FocusScope.of(this.state.context).unfocus();
     if (loginFormKey.currentState.validate()) {
       loginFormKey.currentState.save();
-      Overlay.of(context).insert(loader);
+      Overlay.of(this.state.context).insert(loader);
       repository.register(user).then((value) {
         if (value != null && value.apiToken != null) {
           Navigator.of(scaffoldKey.currentContext).pushReplacementNamed('/Pages', arguments: 0);
         } else {
           scaffoldKey?.currentState?.showSnackBar(SnackBar(
-            content: Text(S.of(context).wrong_email_or_password),
+            content: Text(S.of(this.state.context).wrong_email_or_password),
           ));
         }
       }).catchError((e) {
         loader.remove();
         scaffoldKey.currentState.showSnackBar(SnackBar(
-          content: Text(S.of(context).thisAccountNotExist),
+          content: Text(S.of(this.state.context).thisAccountNotExist),
         ));
       }).whenComplete(() {
         Helper.hideLoader(loader);
@@ -125,16 +109,16 @@ class UserController extends ControllerMVC {
   }
 
   void resetPassword() {
-    FocusScope.of(context).unfocus();
+    FocusScope.of(this.state.context).unfocus();
     if (loginFormKey.currentState.validate()) {
       loginFormKey.currentState.save();
-      Overlay.of(context).insert(loader);
+      Overlay.of(this.state.context).insert(loader);
       repository.resetPassword(user).then((value) {
         if (value != null && value == true) {
           scaffoldKey?.currentState?.showSnackBar(SnackBar(
-            content: Text(S.of(context).your_reset_link_has_been_sent_to_your_email),
+            content: Text(S.of(this.state.context).your_reset_link_has_been_sent_to_your_email),
             action: SnackBarAction(
-              label: S.of(context).login,
+              label: S.of(this.state.context).login,
               onPressed: () {
                 Navigator.of(scaffoldKey.currentContext).pushReplacementNamed('/Login');
               },
@@ -144,7 +128,7 @@ class UserController extends ControllerMVC {
         } else {
           loader.remove();
           scaffoldKey.currentState.showSnackBar(SnackBar(
-            content: Text(S.of(context).error_verify_email_settings),
+            content: Text(S.of(this.state.context).error_verify_email_settings),
           ));
         }
       }).whenComplete(() {

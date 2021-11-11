@@ -5,7 +5,6 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart' show DateFormat;
 import 'package:mvc_pattern/mvc_pattern.dart';
@@ -38,8 +37,6 @@ class _MapWidgetState extends StateMVC<MapWidget> {
   String goTo;
   OrderDetailsController _controllerOderDetails;
   Address destineAddress;
-
-  Geoflutterfire geo;
 
   MapController _con;
 

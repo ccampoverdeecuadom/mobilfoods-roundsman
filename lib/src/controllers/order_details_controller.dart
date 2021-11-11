@@ -61,7 +61,7 @@ class OrderDetailsController extends ControllerMVC {
         msg: 'Debes dar permiso de seguimiento',
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.TOP,
-        backgroundColor: Theme.of(context).backgroundColor,
+        backgroundColor: Theme.of(this.state.context).backgroundColor,
 //      textColor: Theme.of(context).hintColor,
         timeInSecForIosWeb: 5,
       );
@@ -151,7 +151,7 @@ class OrderDetailsController extends ControllerMVC {
       print(a);
       scaffoldKey?.currentState?.showSnackBar(SnackBar(
         content: Text(S
-            .of(context)
+            .of(this.state.context)
             .verify_your_internet_connection),
       ));
     }, onDone: () {
@@ -165,7 +165,7 @@ class OrderDetailsController extends ControllerMVC {
 
   Future<void> refreshOrder() async {
     listenForOrder(id: order.id, message: S
-        .of(context)
+        .of(this.state.context)
         .order_refreshed_successfuly);
   }
 

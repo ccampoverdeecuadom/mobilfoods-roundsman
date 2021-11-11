@@ -44,7 +44,7 @@ class OrderController extends ControllerMVC {
     }, onError: (a) {
       print(a);
       scaffoldKey?.currentState?.showSnackBar(SnackBar(
-        content: Text(S.of(context).verify_your_internet_connection),
+        content: Text(S.of(this.state.context).verify_your_internet_connection),
       ));
     }, onDone: () {
       if(orders.isNotEmpty) {
@@ -70,7 +70,7 @@ class OrderController extends ControllerMVC {
         msg: 'Debes dar permiso de seguimiento',
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.TOP,
-        backgroundColor: Theme.of(context).backgroundColor,
+        backgroundColor: Theme.of(this.state.context).backgroundColor,
 //      textColor: Theme.of(context).hintColor,
         timeInSecForIosWeb: 5,
       );
@@ -166,7 +166,7 @@ class OrderController extends ControllerMVC {
       }, onError: (a) {
         print(a);
         scaffoldKey?.currentState?.showSnackBar(SnackBar(
-          content: Text(S.of(context).verify_your_internet_connection),
+          content: Text(S.of(this.state.context).verify_your_internet_connection),
         ));
       }, onDone: () {
         if (message != null) {
@@ -186,7 +186,7 @@ class OrderController extends ControllerMVC {
     }, onError: (a) {
       print(a);
       scaffoldKey?.currentState?.showSnackBar(SnackBar(
-        content: Text(S.of(context).verify_your_internet_connection),
+        content: Text(S.of(this.state.context).verify_your_internet_connection),
       ));
     }, onDone: () {
       if (message != null) {
@@ -199,18 +199,18 @@ class OrderController extends ControllerMVC {
 
   Future<void> refreshOrdersHistory() async {
     orders.clear();
-    listenForOrdersHistory(message: S.of(context).order_refreshed_successfuly);
+    listenForOrdersHistory(message: S.of(this.state.context).order_refreshed_successfuly);
   }
 
   Future<void> refreshOrders() async {
     orders.clear();
-    await listenForOrders(message: S.of(context).order_refreshed_successfuly);
+    await listenForOrders(message: S.of(this.state.context).order_refreshed_successfuly);
     return true;
   }
 
   Future<void> refreshAvailableOrders() async {
     availableOrders.clear();
-    await listenForAvailableOrders(message: S.of(context).order_refreshed_successfuly);
+    await listenForAvailableOrders(message: S.of(this.state.context).order_refreshed_successfuly);
     return true;
   }
 

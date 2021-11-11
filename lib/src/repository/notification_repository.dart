@@ -35,7 +35,7 @@ Future<Notification> markAsReadNotifications(Notification notification) async {
   final String url = '${GlobalConfiguration().getString('api_base_url')}notifications/${notification.id}?$_apiToken';
   final client = new http.Client();
   final response = await client.put(
-    url,
+      Uri.parse(url),
     headers: {HttpHeaders.contentTypeHeader: 'application/json'},
     body: json.encode(notification.markReadMap()),
   );
@@ -52,7 +52,7 @@ Future<Notification> removeNotification(Notification cart) async {
   final String url = '${GlobalConfiguration().getString('api_base_url')}notifications/${cart.id}?$_apiToken';
   final client = new http.Client();
   final response = await client.delete(
-    url,
+      Uri.parse(url),
     headers: {HttpHeaders.contentTypeHeader: 'application/json'},
   );
   print("[${response.statusCode}] NotificationRepository removeCart");
